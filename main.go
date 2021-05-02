@@ -184,8 +184,24 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					}
 				}
 				
+					a=rand.Intn(8)
+					if a == 0 {bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("有一個國家舉辦最噁心比賽，至最後決賽時剩下三個人爭冠，其中一個人拿了一杯尿，在嘴中漱了漱，吞下，哈的一聲，全場鼓掌想冠軍必落於此家。第二個人從袋中拿出一堆蟑螂，剝了翅膀就嘖嘖嘖的吸牠的肚子，不時還吐出一兩隻腳,吃到第十隻的時後,國王面有菜色的說不用吃了你這樣就第一名了。 此時見第三個人拿出一杯液體，說，這是我半年前感冒到現在，每次吐的痰都收集在裡面，我現在要把它喝完。只見一整杯白白黃黃還帶泡泡的，他搖了搖，試圖讓有些積太久快要凝固的化開， 國王眼淚都要掉下來了，說：不用了不用了你只要喝一口你就冠軍了～這人便拿起杯子咕嘟咕嘟地開始喝，因為很濃又很多過了五分多鐘才喝完，此時全場已淚流滿面，國王說幹嘛我不是叫你喝一口就冠軍了嗎？這人回答道，我也只是想喝一口，但是我一直咬不斷～～")).Do()}
+					if a == 1 {bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("有人很喜歡“麻辣粉絲煲”這道菜。有一次，他上飯館，又點了這道菜。但侍者告訴他，這道菜已經賣完了。“真的賣完了嗎？”他很失望地問。“先生，真的賣完了。你瞧，最後一份賣給那桌的先生了。”侍者回答道。那人順著侍者的指點，看見有個很體面的紳士坐在鄰座。紳士的飯菜已經吃得差不多了，但那份“麻辣粉絲煲”居然還是滿滿的。那人覺得紳士很浪費美味，所以他走到紳士旁邊，指著那份“麻辣粉絲煲”，很有禮貌地問：“先生，您這還要嗎？”紳士很有風度地搖搖頭。于是那人立刻坐下，拿起調羹狼吞虎咽起來。風卷殘雲，一會兒一半下肚了，突然間他發現在砂鍋底躺著一只很小很小但皮毛已長全的小老鼠。一陣惡心，那人把吃下去的所有粉絲通通吐回了砂鍋裏。當他在那兒翻胃不已的時候，那紳士用很同情的眼光看著他，說：“很惡心是嗎？剛才我也是這樣……”")).Do()}
+					if a == 2 {bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("這天，酒店老板正在大廳巡視。來了一乞丐上前說道：”老板給個牙簽行嗎？”老板給他一個打發走了。一會兒，又來一個乞丐，也是來要牙簽的。老板心想現在這乞丐怎麽不要飯改要牙簽了？也同樣給他一個打發走了，沒過多久，又來一個乞丐。老板對他說：”你也是來要牙簽的嗎？”乞丐說：”有個人吐了，可我晚了一步，已經被前面兩個乞丐把能吃的都吃了，現在只剩下湯了。你能給我個吸管嗎？”")).Do()}
+					if a == 3 {bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("老大、老二乘坐飛機，老二暈機，不停嘔吐; 一袋吐滿;老大只好去取袋子，等他回來時，發覺全機人都在不停嘔吐。 老大問其原因，老二說：“我看到這只袋子也吐滿了，只好又喝進去了半袋，結果他們就全吐了。”")).Do()}
+					if a == 4 {bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("有個人去帶著朋友去探望他的外婆。當他和外婆說話時，他的朋友開始吃著咖啡桌上放的花生，把花生都吃完了。當他們離開時，他的朋友對外婆說：「謝謝您的花生」外婆回應說：「喔！嗯！唉！自從我牙齒掉光後，我就只能吸掉它們外層的巧克力而已。老了，咳..」")).Do()}
+					if a == 5 {bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("有個富豪找傭人,面試的題目是上廁所,前幾個上完後都沒有洗手就出來了,富豪因此把他們打發走了,只有一個洗了手,于是富豪留下了他;可是有一天,富豪卻發現他沒有洗手就出來了,富豪問他是爲什麽;傭人答到“偶今天帶了手紙”")).Do()}
+					if a == 6 {bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("醫學院學生圍在蓋著白布的屍體周圍第一次上真人解剖課。教授開始講課了，“做爲醫生，必需具備兩項重要素質，第一要不怕惡心”。說完教授掀開白布，把手指插入屍體肛門，然後抽出並放在嘴裏吮吸。“學著做”，他告訴同學們。同學們都覺得很惡心，猶豫很久但最終不得不依次去做。當最後一個人做完後，教授又說 “第二個素質是觀察。我插入中指但吸食指。同學們，要注意觀察！”")).Do()}
+					if a == 7 {bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("你呀")).Do()}
+				}
+				if strings.Contains(message.Text,"1,") {bot.ReplyMessage(event.ReplyToken, linebot.NewStickerMessage("1",strings.Trim(message.Text,"1,"))).Do()}
+				if strings.Contains(message.Text,"2,") {bot.ReplyMessage(event.ReplyToken, linebot.NewStickerMessage("2",strings.Trim(message.Text,"2,"))).Do()}
+				if strings.Contains(message.Text,"3,") {bot.ReplyMessage(event.ReplyToken, linebot.NewStickerMessage("3",strings.Trim(message.Text,"3,"))).Do()}
+				if strings.Contains(message.Text,"4,") {bot.ReplyMessage(event.ReplyToken, linebot.NewStickerMessage("4",strings.Trim(message.Text,"4,"))).Do()}
+				if strings.Contains(message.Text,"測試") {bot.ReplyMessage(event.ReplyToken, linebot.NewStickerMessage("2","18")).Do()}
+
 				if strings.Contains(message.Text, "a1") {
-					silentMap[sourceId] = true
+					tellTime(replyToken, true)
 					bot.ReplyMessage(replyToken, linebot.NewTextMessage("QQ")).Do()
 					bot.ReplyMessage(replyToken, linebot.NewTextMessage("QQ")).Do()
 					bot.ReplyMessage(replyToken, linebot.NewTextMessage("QQ")).Do()
@@ -194,11 +210,12 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 				} else if strings.Contains(message.Text, "a2") {
 					tellTime(replyToken, true)
 				} else if "a3" == message.Text {
-					silentMap[sourceId] = false
+					tellTime(replyToken, true)
+					bot.ReplyMessage(replyToken, linebot.NewTextMessage("請神容易送神難, 我偏不要, 嘿嘿")).Do()
 					bot.ReplyMessage(replyToken, linebot.NewTextMessage("麥克風測試，1、2、3... OK")).Do()
 					bot.ReplyMessage(replyToken, linebot.NewTextMessage("麥克風測試，1、2、3... OK")).Do()
 					bot.ReplyMessage(replyToken, linebot.NewTextMessage("麥克風測試，1、2、3... OK")).Do()
-					bot.ReplyMessage(replyToken, linebot.NewTextMessage("麥克風測試，1、2、3... OK")).Do()
+					bot.ReplyMessage(replyToken, linebot.NewTextMessage("Bot can't use profile API without user ID")).Do()
 				} else if "profile" == message.Text {
 					if source.UserID != "" {
 						profile, err := bot.GetProfile(source.UserID).Do()
@@ -290,7 +307,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 							bot.LeaveRoom(source.RoomID).Do()
 						}
 					}
-				} else if "無恥" == message.Text {
+				} else if "a4" == message.Text {
 					bot.ReplyMessage(replyToken, linebot.NewTextMessage(answers_ReplyCurseMessage[rand.Intn(len(answers_ReplyCurseMessage))])).Do()
 				} else if silentMap[sourceId] != true {
 					bot.ReplyMessage(replyToken, linebot.NewTextMessage(answers_TextMessage[rand.Intn(len(answers_TextMessage))])).Do()
