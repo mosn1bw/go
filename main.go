@@ -95,32 +95,6 @@ func tellTimeJob(sourceId string) {
 	}
 }
 
-func main() {
-	rand.Seed(time.Now().UnixNano())
-	/*
-	go func() {
-		tellTimeJob(user_zchien);
-	}()
-	go func() {
-		for {
-			now := time.Now().In(loc)
-			log.Println("keep alive at : " + now.Format(timeFormat))
-			//http.Get("https://line-talking-bot-go.herokuapp.com")
-			time.Sleep(time.Duration(rand.Int31n(29)) * time.Minute)
-		}
-	}()
-	*/
-
-	var err error
-	bot, err = linebot.New(os.Getenv("ChannelSecret"), os.Getenv("ChannelAccessToken"))
-	log.Println("Bot:", bot, " err:", err)
-	http.HandleFunc("/callback", callbackHandler)
-	port := os.Getenv("PORT")
-	addr := fmt.Sprintf(":%s", port)
-	http.ListenAndServe(addr, nil)
-
-}
-
 func handler(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
 }
@@ -137,9 +111,6 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-
-	botClient = linebot.NewClient(channelAccessToken)
-	botClient.SetChannelSecret(channelSecret)
 
 	// EventHandler
 	var myEvent linebot.EventHandler = NewEventHandler()
