@@ -261,7 +261,6 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 							log.Print(err)
 					    	}
 					    }
-			    	return
 				} else if "s2"== message.Text {
 			    		imageURL = SystemImageURL
 			    		LineTemplate_test := linebot.NewCarouselTemplate(
@@ -281,10 +280,9 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 			    				log.Print(847)
 			    				log.Print(err)
 			    		}
-			    	return
 				} else if "s3"== message.Text {
-		    		imageURL = "https://lh3.googleusercontent.com/-HH0XJGbc8rg/XvGESH1WZ5I/AAAAAAAAFro/hQKPpJ5OVM80ZsBNIR7Ou7aoPh4Rz6DAACK8BGAsYHg/s512/2020-06-22.jpg"
-		    		LineTemplate_test := linebot.NewCarouselTemplate(
+		    		        imageURL = "https://lh3.googleusercontent.com/-HH0XJGbc8rg/XvGESH1WZ5I/AAAAAAAAFro/hQKPpJ5OVM80ZsBNIR7Ou7aoPh4Rz6DAACK8BGAsYHg/s512/2020-06-22.jpg"
+		    		        LineTemplate_test := linebot.NewCarouselTemplate(
 		    			linebot.NewCarouselColumn(
 		    				imageURL, "💠ϻఠ_ఠsɛɳ💠вσт💠", "ℓ๐νә",
 		    				linebot.NewURITemplateAction("Google Map","https://goo.gl/maps/h6s5ccdXrL52"),
@@ -300,16 +298,15 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		    				linebot.NewMessageTemplateAction("ϻఠ_ఠsɛɳ", "вσт"),
 		    			),
 		    			LineTemplate_CarouselColumn_feedback,
-		    		)
-		    		no_temp_msg := "ℓ๐νә"
-		    		obj_message := linebot.NewTemplateMessage(no_temp_msg, LineTemplate_test)
+		    			)
+		    			no_temp_msg := "ℓ๐νә"
+		    			obj_message := linebot.NewTemplateMessage(no_temp_msg, LineTemplate_test)
 		    
-		    		obj_message_map := linebot.NewLocationMessage("ℓ๐νә", "ℓ๐νә", 25.007408,121.537688) //台北市信義區富陽街46號
-		    		if _, err = bot.ReplyMessage(event.ReplyToken, obj_message, obj_message_map).Do(); err != nil {
-		    			log.Print(1876)
-		    			log.Print(err)
-		    		}
-		    		return
+		    			obj_message_map := linebot.NewLocationMessage("ℓ๐νә", "ℓ๐νә", 25.007408,121.537688) //台北市信義區富陽街46號
+		    			if _, err = bot.ReplyMessage(event.ReplyToken, obj_message, obj_message_map).Do(); err != nil {
+		    	        		log.Print(1876)
+		    		        	log.Print(err)
+		    	        	} 
 				} else if "s5"== message.Text {
 					bot_msg = "你找我的製造者？OK！\n我跟你講我的夥伴喵在哪，你去加他。\n他跟製造者很親近的，跟他說的話製造者都會看到。\nhttps://line.me/R/ti/p/%40uwk0684z\n\n\n你也可以從下面這個連結直接去找開發者線上對話。\n\n如果他不在線上一樣可以留言給他，\n他會收到的！\n這跟手機、電腦桌面軟體都有同步連線。" +
 					"\n\nhttp://www.smartsuppchat.com/widget?key=77b943aeaffa11a51bb483a816f552c70e322417&vid=" + target_id_code +
