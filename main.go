@@ -248,38 +248,6 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					).Do(); err != nil {
 						log.Print(err)
 					}
-				} else if "LL"== message.Text {
-						// imageURL = SystemImageURL
-						template := linebot.NewConfirmTemplate(
-							"驗證成功！\n要現在進入管理介面嗎？",
-							linebot.NewPostbackTemplateAction("是","開啟管理者選單", ""),
-							linebot.NewPostbackTemplateAction("否","登出管理者", ""),
-						)
-						obj_message := linebot.NewTemplateMessage("這功能只支援最新版本 APP 使用。\n請用 APP 端查看下一步。", template)
-						if _, err = bot.ReplyMessage(event.ReplyToken,obj_message).Do(); err != nil {
-							log.Print(2162)
-							log.Print(err)
-					    	}
-					    }
-				} else if "s2"== message.Text {
-			    		imageURL = SystemImageURL
-			    		LineTemplate_test := linebot.NewCarouselTemplate(
-			    			linebot.NewCarouselColumn(
-			    				imageURL, "test", "For test mode.",
-			    				linebot.NewPostbackTemplateAction("測試","test", ""),
-			    				linebot.NewPostbackTemplateAction("管理模式","admin", ""),
-			    				linebot.NewPostbackTemplateAction("申請使用管理者","開發者", "開發者"),
-			    			),
-			    			// LineTemplate_other_example,
-			    			// LineTemplate_other,
-			    			//LineTemplate_CarouselColumn_feedback,
-			    		)
-			    		no_temp_msg := "你已觸發測試模式，請更新最新版本的 LINE 查看內容 。"
-			    		obj_message := linebot.NewTemplateMessage(no_temp_msg, LineTemplate_test)
-			    		if _, err = bot.ReplyMessage(event.ReplyToken, obj_message).Do(); err != nil {
-			    				log.Print(847)
-			    				log.Print(err)
-			    		}
 				} else if "s3"== message.Text {
 		    		        imageURL = "https://lh3.googleusercontent.com/-HH0XJGbc8rg/XvGESH1WZ5I/AAAAAAAAFro/hQKPpJ5OVM80ZsBNIR7Ou7aoPh4Rz6DAACK8BGAsYHg/s512/2020-06-22.jpg"
 		    		        LineTemplate_test := linebot.NewCarouselTemplate(
@@ -307,28 +275,6 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		    	        		log.Print(1876)
 		    		        	log.Print(err)
 		    	        	} 
-				} else if "s5"== message.Text {
-					bot_msg = "你找我的製造者？OK！\n我跟你講我的夥伴喵在哪，你去加他。\n他跟製造者很親近的，跟他說的話製造者都會看到。\nhttps://line.me/R/ti/p/%40uwk0684z\n\n\n你也可以從下面這個連結直接去找開發者線上對話。\n\n如果他不在線上一樣可以留言給他，\n他會收到的！\n這跟手機、電腦桌面軟體都有同步連線。" +
-					"\n\nhttp://www.smartsuppchat.com/widget?key=77b943aeaffa11a51bb483a816f552c70e322417&vid=" + target_id_code +
-					"&lang=tw&pageTitle=%E9%80%99%E6%98%AF%E4%BE%86%E8%87%AA%20LINE%40%20%E9%80%B2%E4%BE%86%E7%9A%84%E5%8D%B3%E6%99%82%E9%80%9A%E8%A8%8A"
-					log.Print("觸發找製造者")
-					template := linebot.NewCarouselTemplate(
-						linebot.NewCarouselColumn(
-							SystemImageURL, "開發者相關資訊", "你可以透過此功能\n聯絡 開發者",
-							LineTemplate_addme,
-							LineTemplate_chat,
-							linebot.NewPostbackTemplateAction("聯絡 LINE 機器人開發者", "開發者", "開發者"),
-						),
-					)
-					obj_message := linebot.NewTemplateMessage("上面這些都是聯絡開發者的相關方法。", template)
-					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(bot_msg),obj_message).Do(); err != nil {
-						log.Print(1672)
-						log.Print(err)
-					}
-					//HttpPost_JANDI(target_item + " [" + user_talk + "](" + userImageUrl + ")：" + message.Text + `\n` + userStatus, "yellow" , "LINE 同步：執行找開發者",target_id_code)
-					//HttpPost_IFTTT(target_item + " " + user_talk + "：" + message.Text + `\n<br>` + userImageUrl + `\n<br>` + userStatus, "LINE 同步：執行找開發者",target_id_code)
-					HttpPost_Zapier(target_item + " [" + user_talk + "](" + userImageUrl + ")：" + message.Text + `\n` + userStatus, "LINE 同步：執行找開發者",target_id_code,user_talk)
-					return
 				} else if "carousel" == message.Text {
 					imageURL := baseURL + "/static/buttons/1040.jpg"
 					template := linebot.NewCarouselTemplate(
@@ -354,7 +300,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						replyToken,
 						linebot.NewImagemapMessage(
 							baseURL + "/static/rich",
-							"Imagemap alt text",{
+							"Imagemap alt text",
 							linebot.ImagemapBaseSize{1040, 1040},
 							linebot.NewURIImagemapAction("https://store.line.me/family/manga/en", linebot.ImagemapArea{0, 0, 520, 520}),
 							linebot.NewURIImagemapAction("https://store.line.me/family/music/en", linebot.ImagemapArea{520, 0, 520, 520}),
@@ -364,6 +310,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					).Do(); err != nil {
 						log.Print(err)
 					}
+							
 				} else if "/bye" == message.Text {
 					if rand.Intn(100) > 70 {
 						bot.ReplyMessage(replyToken, linebot.NewTextMessage("請神容易送神難, 我偏不要, 嘿嘿")).Do()
