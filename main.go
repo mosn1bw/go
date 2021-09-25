@@ -249,7 +249,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						log.Print(err)
 					}
 				} else if "s3"== message.Text {
-		    		        imageURL = "https://lh3.googleusercontent.com/-HH0XJGbc8rg/XvGESH1WZ5I/AAAAAAAAFro/hQKPpJ5OVM80ZsBNIR7Ou7aoPh4Rz6DAACK8BGAsYHg/s512/2020-06-22.jpg"
+	                        	imageURL := app.appBaseURL + "/assets/buttons/1040.jpg"
 		    		        LineTemplate_test := linebot.NewCarouselTemplate(
 		    			linebot.NewCarouselColumn(
 		    				imageURL, "💠ϻఠ_ఠsɛɳ💠вσт💠", "ℓ๐νә",
