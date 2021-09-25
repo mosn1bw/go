@@ -26,9 +26,117 @@ import (
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
+// Constants
+var timeFormat = "01/02 PM03:04:05"
+var user_zchien = "U696bcb700dfc9254b27605374b86968b"
+var user_yaoming = "U3aaab6c6248bb38f194134948c60f757"
+var user_jackal = "U3effab06ddf5bcf0b46c1c60bcd39ef5"
+var user_shane = "U2ade7ac4456cb3ca99ffdf9d7257329a"
+
 // Global Settings
 var channelSecret = os.Getenv("CHANNEL_SECRET")
 var channelToken = os.Getenv("CHANNEL_TOKEN")
+//var baseURL = os.Getenv("APP_BASE_URL")
+var baseURL = "https://line-talking-bot-go.herokuapp.com"
+var endpointBase = os.Getenv("ENDPOINT_BASE")
+var tellTimeInterval int = 15
+var answers_TextMessage = []string{
+		"",
+	}
+var answers_ImageMessage = []string{
+		"",
+	}
+var answers_StickerMessage = []string{
+		"",
+	}
+var answers_VideoMessage = []string{
+		"",
+	}
+var answers_AudioMessage = []string{
+		"",
+	}
+var answers_LocationMessage = []string{
+		"",
+	}
+var answers_ReplyCurseMessage = []string{
+		"",
+	}
+
+var silentMap = make(map[string]bool) // [UserID/GroupID/RoomID]:bool
+
+//var echoMap = make(map[string]bool)
+
+var loc, _ = time.LoadLocation("Asia/Tehran")
+var bot *linebot.Client
+
+
+func tellTime(replyToken string, doTell bool){
+	var silent = false
+	now := time.Now().In(loc)
+	nowString := now.Format(timeFormat)
+	
+	if doTell {
+		log.Println("ساعت بوقت تهران:  " + nowString)
+		bot.ReplyMessage(replyToken, linebot.NewTextMessage("ساعت بوقت تهران: " + nowString)).Do()
+	} else if silent != true {
+		log.Println("ساعت بوقت تهران:  " + nowString)
+		bot.PushMessage(replyToken, linebot.NewTextMessage("ساعت بوقت تهران:  " + nowString)).Do()
+	} else {
+		log.Println("tell time misfired")
+	}
+}
+
+func tellTimeJob(sourceId string) {
+	for {
+		time.Sleep(time.Duration(tellTimeInterval) * time.Minute)
+		now := time.Now().In(loc)
+		log.Println("time to tell time to : " + sourceId + ", " + now.Format(timeFormat))
+		tellTime(sourceId, false)
+	}
+}
+
+func main() {
+	rand.Seed(time.Now().UnixNano())
+	/*
+	go func() {
+		tellTimeJob(user_zchien);
+	}()
+	go func() {
+		for {
+			now := time.Now().In(loc)
+			log.Println("keep alive at : " + now.Format(timeFormat))
+			//http.Get("https://line-talking-bot-go.herokuapp.com")
+			time.Sleep(time.Duration(rand.Int31n(29)) * time.Minute)
+		}
+	}()
+	*/
+
+	var err error
+	bot, err = linebot.New(os.Getenv("ChannelSecret"), os.Getenv("ChannelAccessToken"))
+	log.Println("Bot:", bot, " err:", err)
+	http.HandleFunc("/callback", callbackHandler)
+	port := os.Getenv("PORT")
+	addr := fmt.Sprintf(":%s", port)
+	http.ListenAndServe(addr, nil)
+
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+}
+
+func callbackHandler(w http.ResponseWriter, r *http.Request) {
+	events, err := bot.ParseRequest(r)
+	log.Print("URL:"  + r.URL.String())
+	
+	if err != nil {
+		if err == linebot.ErrInvalidSignature {
+			w.WriteHeader(400)
+		} else {
+			w.WriteHeader(500)
+		}
+		return
+	}
 
 	botClient = linebot.NewClient(channelAccessToken)
 	botClient.SetChannelSecret(channelSecret)
