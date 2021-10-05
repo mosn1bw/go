@@ -244,7 +244,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						linebot.NewPostbackTemplateAction("言 hello2", "hello こんにちは", "hello こんにちは"),
 						linebot.NewMessageTemplateAction("Say message", "Rice=米"),
                 	)
-                	if _, err := app.bot.ReplyMessage(
+                	if _, err := bot.ReplyMessage(
                 		replyToken,
                 		linebot.NewTemplateMessage("Buttons alt text", template),
                 	).Do(); err != nil {
@@ -256,7 +256,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
                 		linebot.NewMessageTemplateAction("Yes", "Yes!"),
                 		linebot.NewMessageTemplateAction("No", "No!"),
                 	)
-                	if _, err := app.bot.ReplyMessage(
+                	if _, err := bot.ReplyMessage(
                 		replyToken,
                 		linebot.NewTemplateMessage("Confirm alt text", template),
                 	).Do(); err != nil {
@@ -266,9 +266,9 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
                 	imageURL := app.appBaseURL + "/static/buttons/1040.jpg"
                 	template := linebot.NewCarouselTemplate(
                 		linebot.NewCarouselColumn(
-                			imageURL, "hoge", "fuga",
-                			linebot.NewURITemplateAction("Go to line.me", "https://line.me"),
-                			linebot.NewPostbackTemplateAction("Say hello1", "hello こんにちは", "", ""),
+                		imageURL, "hoge", "fuga",
+                		linebot.NewURITemplateAction("Go to line.me", "https://line.me"),
+						linebot.NewPostbackTemplateAction("言 hello2", "hello こんにちは", "hello こんにちは"),
                 		),
                 		linebot.NewCarouselColumn(
                 			imageURL, "hoge", "fuga",
@@ -276,7 +276,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
                 			linebot.NewMessageTemplateAction("Say message", "Rice=米"),
                 		),
                 	)
-                	if _, err := app.bot.ReplyMessage(
+                	if _, err := bot.ReplyMessage(
                 		replyToken,
                 		linebot.NewTemplateMessage("Carousel alt text", template),
                 	).Do(); err != nil {
@@ -302,7 +302,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
                 			linebot.NewDatetimePickerAction("datetime", "DATETIME", "datetime", "", "", ""),
                 		),
                 	)
-                	if _, err := app.bot.ReplyMessage(
+                	if _, err := bot.ReplyMessage(
                 		replyToken,
                 		linebot.NewTemplateMessage("Image carousel alt text", template),
                 	).Do(); err != nil {
@@ -315,7 +315,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
                 		linebot.NewDatetimePickerAction("time", "TIME", "time", "", "", ""),
                 		linebot.NewDatetimePickerAction("datetime", "DATETIME", "datetime", "", "", ""),
                 	)
-                	if _, err := app.bot.ReplyMessage(
+                	if _, err := bot.ReplyMessage(
                 		replyToken,
                 		linebot.NewTemplateMessage("Datetime pickers alt text", template),
                 	).Do(); err != nil {
@@ -356,7 +356,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
                 			},
                 		},
                 	}
-                	if _, err := app.bot.ReplyMessage(
+                	if _, err := bot.ReplyMessage(
                 		replyToken,
                 		linebot.NewFlexMessage("Flex message alt text", contents),
                 	).Do(); err != nil {
@@ -425,7 +425,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
                 			},
                 		},
                 	}
-                	if _, err := app.bot.ReplyMessage(
+                	if _, err := bot.ReplyMessage(
                 		replyToken,
                 		linebot.NewFlexMessage("Flex message alt text", contents),
                 	).Do(); err != nil {
@@ -588,7 +588,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
         	       	if err != nil {
 						log.Print(err)
         	       	}
-        	       	if _, err := app.bot.ReplyMessage(
+        	       	if _, err := bot.ReplyMessage(
         	       		replyToken,
         	       		linebot.NewFlexMessage("Flex message alt text", contents),
         	       	).Do(); err != nil {
@@ -623,7 +623,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					}
 					return
 				} else if "imagemap1" == message.Text {
-        	       	if _, err := app.bot.ReplyMessage(
+        	       	if _, err := bot.ReplyMessage(
         	       		replyToken,
         	       		linebot.NewImagemapMessage(
         	       			app.appBaseURL+"/static/rich",
@@ -638,7 +638,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						log.Print(err)
 					}
 				} else if "imagemap video" == message.Text {
-					if _, err := app.bot.ReplyMessage(
+					if _, err := bot.ReplyMessage(
 					replyToken,
 					linebot.NewImagemapMessage(
         	       			app.appBaseURL+"/static/rich",
@@ -658,7 +658,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						log.Print(err)
 					}
 				} else if "quick" == message.Text {
-					if _, err := app.bot.ReplyMessage(
+					if _, err := bot.ReplyMessage(
 				        	replyToken,
 				        	linebot.NewTextMessage("Select your favorite food category or send me your location!").
         	       		        	WithQuickReplies(linebot.NewQuickReplyItems(
@@ -674,7 +674,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
         	       			)),
 					).Do(); err != nil {
 						log.Print(err)
-					}
+        	       	}
 				} else if "confirm" == message.Text {
 					template := linebot.NewConfirmTemplate(
 						"Do it?",
