@@ -221,11 +221,14 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						bot.ReplyMessage(replyToken, linebot.NewTextMessage("Bot can't use profile API without user ID")).Do()
 					}
 				} else if "buttons" == message.Text {
-					ImageUrl: "https://picsum.photos/200",
+					imageURL := baseURL + "/static/buttons/1040.jpg"
 					//log.Print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "+imageURL)
 					template := linebot.NewButtonsTemplate(
 						imageURL, "My button sample", "Hello, my button",
-						linebot.NewURITemplateAction("Go to line.me"),
+						linebot.NewURITemplateAction("Go to line.me", "https://line.me"),
+						linebot.NewPostbackTemplateAction("Say hello1", "hello こんにちは", ""),
+						linebot.NewPostbackTemplateAction("言 hello2", "hello こんにちは", "hello こんにちは"),
+						linebot.NewMessageTemplateAction("Say message", "Rice=米"),
 					)
 					if _, err := bot.ReplyMessage(
 						replyToken,
@@ -234,8 +237,8 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						log.Print(err)
 					}
 				} else if "buttons1" == message.Text {
-                	imageURL := app.appBaseURL + "/static/buttons/1040.jpg"
-                	template := linebot.NewButtonsTemplate(
+					imageURL := app.appBaseURL + "/static/buttons/1040.jpg"
+					template := linebot.NewButtonsTemplate(
                 		imageURL, "My button sample", "Hello, my button",
                 		linebot.NewURIAction("Go to line.me", "https://line.me"),
                 		linebot.NewPostbackAction("Say hello1", "hello こんにちは", "", "hello こんにちは"),
@@ -592,7 +595,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
         	       	).Do(); err != nil {
         	       		return err
         	       	}
-	    		} else if "imagemap1" == message.Text {
+				} else if "imagemap1" == message.Text {
         	       	if _, err := app.bot.ReplyMessage(
         	       		replyToken,
         	       		linebot.NewImagemapMessage(
@@ -603,14 +606,14 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
         	       			linebot.NewURIImagemapAction("LINE Store Music", "https://store.line.me/family/music/en", linebot.ImagemapArea{X: 520, Y: 0, Width: 520, Height: 520}),
         	       			linebot.NewURIImagemapAction("LINE Store Play", "https://store.line.me/family/play/en", linebot.ImagemapArea{X: 0, Y: 520, Width: 520, Height: 520}),
         	       			linebot.NewMessageImagemapAction("URANAI!", "URANAI!", linebot.ImagemapArea{X: 520, Y: 520, Width: 520, Height: 520}),
-        	       		),
-        	       	).Do(); err != nil {
-        	       		return err
-        	       	}
-	    		} else if "imagemap video" == message.Text {
-        	       	if _, err := app.bot.ReplyMessage(
-        	       		replyToken,
-        	       		linebot.NewImagemapMessage(
+					),
+					).Do(); err != nil {
+					return err
+					}
+				} else if "imagemap video" == message.Text {
+					if _, err := app.bot.ReplyMessage(
+					replyToken,
+					linebot.NewImagemapMessage(
         	       			app.appBaseURL+"/static/rich",
         	       			"Imagemap with video alt text",
         	       			linebot.ImagemapBaseSize{Width: 1040, Height: 1040},
@@ -618,20 +621,20 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
         	       			linebot.NewURIImagemapAction("LINE Store Music", "https://store.line.me/family/music/en", linebot.ImagemapArea{X: 520, Y: 0, Width: 520, Height: 520}),
         	       			linebot.NewURIImagemapAction("LINE Store Play", "https://store.line.me/family/play/en", linebot.ImagemapArea{X: 0, Y: 520, Width: 520, Height: 520}),
         	       			linebot.NewMessageImagemapAction("URANAI!", "URANAI!", linebot.ImagemapArea{X: 520, Y: 520, Width: 520, Height: 520}),
-        	       		).WithVideo(&linebot.ImagemapVideo{
+					).WithVideo(&linebot.ImagemapVideo{
         	       			OriginalContentURL: app.appBaseURL + "/static/imagemap/video.mp4",
         	       			PreviewImageURL:    app.appBaseURL + "/static/imagemap/preview.jpg",
         	       			Area:               linebot.ImagemapArea{X: 280, Y: 385, Width: 480, Height: 270},
         	       			ExternalLink:       &linebot.ImagemapVideoExternalLink{LinkURI: "https://line.me", Label: "LINE"},
-        	       		}),
-        	       	).Do(); err != nil {
-        	       		return err
-        	       	}
-	    		} else if "quick" == message.Text {
-        	       	if _, err := app.bot.ReplyMessage(
-        	       		replyToken,
-        	       		linebot.NewTextMessage("Select your favorite food category or send me your location!").
-        	       			WithQuickReplies(linebot.NewQuickReplyItems(
+					}),
+					).Do(); err != nil {
+					return err
+					}
+				} else if "quick" == message.Text {
+					if _, err := app.bot.ReplyMessage(
+				        	replyToken,
+				        	linebot.NewTextMessage("Select your favorite food category or send me your location!").
+        	       		        	WithQuickReplies(linebot.NewQuickReplyItems(
         	       				linebot.NewQuickReplyButton(
         	       					app.appBaseURL+"/static/quick/sushi.png",
         	       					linebot.NewMessageAction("Sushi", "Sushi")),
@@ -642,8 +645,8 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
         	       					"",
         	       					linebot.NewLocationAction("Send location")),
         	       			)),
-        	       	).Do(); err != nil {
-        	       		return err
+					).Do(); err != nil {
+					return err
         	       	}
 				} else if "confirm" == message.Text {
 					template := linebot.NewConfirmTemplate(
