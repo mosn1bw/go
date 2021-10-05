@@ -262,52 +262,6 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
                 	).Do(); err != nil {
 						log.Print(err)
                 	}
-				} else if "carousel1" == message.Text {
-                	imageURL := app.appBaseURL + "/static/buttons/1040.jpg"
-                	template := linebot.NewCarouselTemplate(
-                		linebot.NewCarouselColumn(
-                		imageURL, "hoge", "fuga",
-                		linebot.NewURITemplateAction("Go to line.me", "https://line.me"),
-						linebot.NewPostbackTemplateAction("言 hello2", "hello こんにちは", "hello こんにちは"),
-                		),
-                		linebot.NewCarouselColumn(
-                			imageURL, "hoge", "fuga",
-                			linebot.NewPostbackTemplateAction("言 hello2", "hello こんにちは", "hello こんにちは", ""),
-                			linebot.NewMessageTemplateAction("Say message", "Rice=米"),
-                		),
-                	)
-                	if _, err := bot.ReplyMessage(
-                		replyToken,
-                		linebot.NewTemplateMessage("Carousel alt text", template),
-                	).Do(); err != nil {
-						log.Print(err)
-                	}
-				} else if "image carousel1" == message.Text {
-                	imageURL := app.appBaseURL + "/static/buttons/1040.jpg"
-                	template := linebot.NewImageCarouselTemplate(
-                		linebot.NewImageCarouselColumn(
-                			imageURL,
-                			linebot.NewURITemplateAction("Go to LINE", "https://line.me"),
-                		),
-                		linebot.NewImageCarouselColumn(
-                			imageURL,
-                			linebot.NewPostbackTemplateAction("Say hello1", "hello こんにちは", "", ""),
-                		),
-                		linebot.NewImageCarouselColumn(
-                			imageURL,
-                			linebot.NewMessageTemplateAction("Say message", "Rice=米"),
-                		),
-                		linebot.NewImageCarouselColumn(
-                			imageURL,
-                			linebot.NewDatetimePickerAction("datetime", "DATETIME", "datetime", "", "", ""),
-                		),
-                	)
-                	if _, err := bot.ReplyMessage(
-                		replyToken,
-                		linebot.NewTemplateMessage("Image carousel alt text", template),
-                	).Do(); err != nil {
-						log.Print(err)
-                	}
 				} else if "datetime" == message.Text {
                 	template := linebot.NewButtonsTemplate(
                 		"", "", "Select date / time !",
