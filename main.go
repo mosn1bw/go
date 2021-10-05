@@ -95,6 +95,23 @@ func tellTimeJob(sourceId string) {
 	}
 }
 
+// CarouselContainer type
+type CarouselContainer struct {
+	Type     FlexContainerType
+	Contents []*BubbleContainer
+}
+
+// MarshalJSON method of CarouselContainer
+func (c *CarouselContainer) MarshalJSON() ([]byte, error) {
+	return json.Marshal(&struct {
+		Type     FlexContainerType  `json:"type"`
+		Contents []*BubbleContainer `json:"contents"`
+	}{
+		Type:     FlexContainerTypeCarousel,
+		Contents: c.Contents,
+	})
+}
+
 func main() {
 	rand.Seed(time.Now().UnixNano())
 	/*
@@ -124,6 +141,57 @@ func main() {
 func handler(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
 }
+
+// Carousel message
+func Carousel(p PlacesCarousel, maxBubble int) *linebot.FlexMessage {
+	carousel := MarshalCarousel(p, maxBubble)
+	altText := p.AltText()
+	return linebot.NewFlexMessage(altText, carousel)
+}
+
+// CarouselContainer type
+type CarouselContainer struct {
+	Type     FlexContainerType
+	Contents []*BubbleContainer
+}
+
+// UnmarshalFlexMessageJSON function
+func UnmarshalFlexMessageJSON(data []byte) (FlexContainer, error) {
+	raw := rawFlexContainer{}
+	if err := json.Unmarshal(data, &raw); err != nil {
+		return nil, err
+	}
+	return raw.Container, nil
+}
+
+// MarshalJSON method of CarouselContainer
+func (c *CarouselContainer) MarshalJSON() ([]byte, error) {
+	return json.Marshal(&struct {
+		Type     FlexContainerType  `json:"type"`
+		Contents []*BubbleContainer `json:"contents"`
+	}{
+		Type:     FlexContainerTypeCarousel,
+		Contents: c.Contents,
+	})
+}
+
+// NewDatetimePickerAction function
+func NewDatetimePickerAction(label, data, mode, initial, max, min string) *DatetimePickerAction {
+	return &DatetimePickerAction{
+		Label:   label,
+		Data:    data,
+		Mode:    mode,
+		Initial: initial,
+		Max:     max,
+		Min:     min,
+	}
+}
+
+// FlexContainer implements FlexContainer interface
+func (*BubbleContainer) FlexContainer() {}
+
+// FlexContainer implements FlexContainer interface
+func (*CarouselContainer) FlexContainer() {}
 
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	events, err := bot.ParseRequest(r)
@@ -259,6 +327,52 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
                 	if _, err := bot.ReplyMessage(
                 		replyToken,
                 		linebot.NewTemplateMessage("Confirm alt text", template),
+                	).Do(); err != nil {
+						log.Print(err)
+                	}
+				} else if "carousel1" == message.Text {
+                	imageURL := app.appBaseURL + "/static/buttons/1040.jpg"
+                	template := linebot.NewCarouselTemplate(
+                		linebot.NewCarouselColumn(
+                		imageURL, "hoge", "fuga",
+                		linebot.NewURITemplateAction("Go to line.me", "https://line.me"),
+						linebot.NewPostbackTemplateAction("言 hello2", "hello こんにちは", "hello こんにちは"),
+                		),
+                		linebot.NewCarouselColumn(
+                			imageURL, "hoge", "fuga",
+                			linebot.NewPostbackTemplateAction("言 hello2", "hello こんにちは", "hello こんにちは", ""),
+                			linebot.NewMessageTemplateAction("Say message", "Rice=米"),
+                		),
+                	)
+                	if _, err := bot.ReplyMessage(
+                		replyToken,
+                		linebot.NewTemplateMessage("Carousel alt text", template),
+                	).Do(); err != nil {
+						log.Print(err)
+                	}
+				} else if "image carousel1" == message.Text {
+                	imageURL := app.appBaseURL + "/static/buttons/1040.jpg"
+                	template := linebot.NewImageCarouselTemplate(
+                		linebot.NewImageCarouselColumn(
+                			imageURL,
+                			linebot.NewURITemplateAction("Go to LINE", "https://line.me"),
+                		),
+                		linebot.NewImageCarouselColumn(
+                			imageURL,
+                			linebot.NewPostbackTemplateAction("Say hello1", "hello こんにちは", "", ""),
+                		),
+                		linebot.NewImageCarouselColumn(
+                			imageURL,
+                			linebot.NewMessageTemplateAction("Say message", "Rice=米"),
+                		),
+                		linebot.NewImageCarouselColumn(
+                			imageURL,
+                			linebot.NewDatetimePickerAction("datetime", "DATETIME", "datetime", "", "", ""),
+                		),
+                	)
+                	if _, err := bot.ReplyMessage(
+                		replyToken,
+                		linebot.NewTemplateMessage("Image carousel alt text", template),
                 	).Do(); err != nil {
 						log.Print(err)
                 	}
