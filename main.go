@@ -95,22 +95,19 @@ func tellTimeJob(sourceId string) {
 	}
 }
 
-// CarouselContainer type
-type CarouselContainer struct {
-	Type     FlexContainerType
-	Contents []*BubbleContainer
+// FlexContainerType type
+type FlexContainerType string
+
+// IntPtr is a helper function for using *int values
+func IntPtr(v int) *int {
+	return &v
 }
 
-// MarshalJSON method of CarouselContainer
-func (c *CarouselContainer) MarshalJSON() ([]byte, error) {
-	return json.Marshal(&struct {
-		Type     FlexContainerType  `json:"type"`
-		Contents []*BubbleContainer `json:"contents"`
-	}{
-		Type:     FlexContainerTypeCarousel,
-		Contents: c.Contents,
-	})
-}
+// FlexContainerType constants
+const (
+	FlexContainerTypeBubble   FlexContainerType = "bubble"
+	FlexContainerTypeCarousel FlexContainerType = "carousel"
+)
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
