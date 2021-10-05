@@ -237,66 +237,65 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						log.Print(err)
 					}
 				} else if "buttons1" == message.Text {
-					imageURL := app.appBaseURL + "/static/buttons/1040.jpg"
+					imageURL := baseURL + "/static/buttons/1040.jpg"
 					template := linebot.NewButtonsTemplate(
                 		imageURL, "My button sample", "Hello, my button",
-                		linebot.NewURIAction("Go to line.me", "https://line.me"),
-                		linebot.NewPostbackAction("Say hello1", "hello こんにちは", "", "hello こんにちは"),
-                		linebot.NewPostbackAction("言 hello2", "hello こんにちは", "hello こんにちは", ""),
-                		linebot.NewMessageAction("Say message", "Rice=米"),
+						linebot.NewURITemplateAction("Go to line.me", "https://line.me"),
+						linebot.NewPostbackTemplateAction("言 hello2", "hello こんにちは", "hello こんにちは"),
+						linebot.NewMessageTemplateAction("Say message", "Rice=米"),
                 	)
                 	if _, err := app.bot.ReplyMessage(
                 		replyToken,
                 		linebot.NewTemplateMessage("Buttons alt text", template),
                 	).Do(); err != nil {
-                		return err
+						log.Print(err)
                 	}
 				} else if "confirm1" == message.Text {
                 	template := linebot.NewConfirmTemplate(
                 		"Do it?",
-                		linebot.NewMessageAction("Yes", "Yes!"),
-                		linebot.NewMessageAction("No", "No!"),
+                		linebot.NewMessageTemplateAction("Yes", "Yes!"),
+                		linebot.NewMessageTemplateAction("No", "No!"),
                 	)
                 	if _, err := app.bot.ReplyMessage(
                 		replyToken,
                 		linebot.NewTemplateMessage("Confirm alt text", template),
                 	).Do(); err != nil {
-                		return err
+						log.Print(err)
                 	}
 				} else if "carousel1" == message.Text {
                 	imageURL := app.appBaseURL + "/static/buttons/1040.jpg"
                 	template := linebot.NewCarouselTemplate(
                 		linebot.NewCarouselColumn(
                 			imageURL, "hoge", "fuga",
-                			linebot.NewURIAction("Go to line.me", "https://line.me"),
-                			linebot.NewPostbackAction("Say hello1", "hello こんにちは", "", ""),
+                			linebot.NewURITemplateAction("Go to line.me", "https://line.me"),
+                			linebot.NewPostbackTemplateAction("Say hello1", "hello こんにちは", "", ""),
                 		),
                 		linebot.NewCarouselColumn(
                 			imageURL, "hoge", "fuga",
-                			linebot.NewPostbackAction("言 hello2", "hello こんにちは", "hello こんにちは", ""),
-                			linebot.NewMessageAction("Say message", "Rice=米"),
+                			linebot.NewPostbackTemplateAction("言 hello2", "hello こんにちは", "hello こんにちは", ""),
+                			linebot.NewMessageTemplateAction("Say message", "Rice=米"),
                 		),
                 	)
                 	if _, err := app.bot.ReplyMessage(
                 		replyToken,
                 		linebot.NewTemplateMessage("Carousel alt text", template),
                 	).Do(); err != nil {
-                		return err
+						log.Print(err)
                 	}
 				} else if "image carousel1" == message.Text {
                 	imageURL := app.appBaseURL + "/static/buttons/1040.jpg"
                 	template := linebot.NewImageCarouselTemplate(
                 		linebot.NewImageCarouselColumn(
                 			imageURL,
-                			linebot.NewURIAction("Go to LINE", "https://line.me"),
+                			linebot.NewURITemplateAction("Go to LINE", "https://line.me"),
                 		),
                 		linebot.NewImageCarouselColumn(
                 			imageURL,
-                			linebot.NewPostbackAction("Say hello1", "hello こんにちは", "", ""),
+                			linebot.NewPostbackTemplateAction("Say hello1", "hello こんにちは", "", ""),
                 		),
                 		linebot.NewImageCarouselColumn(
                 			imageURL,
-                			linebot.NewMessageAction("Say message", "Rice=米"),
+                			linebot.NewMessageTemplateAction("Say message", "Rice=米"),
                 		),
                 		linebot.NewImageCarouselColumn(
                 			imageURL,
@@ -307,7 +306,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
                 		replyToken,
                 		linebot.NewTemplateMessage("Image carousel alt text", template),
                 	).Do(); err != nil {
-                		return err
+						log.Print(err)
                 	}
 				} else if "datetime" == message.Text {
                 	template := linebot.NewButtonsTemplate(
@@ -320,7 +319,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
                 		replyToken,
                 		linebot.NewTemplateMessage("Datetime pickers alt text", template),
                 	).Do(); err != nil {
-                		return err
+						log.Print(err)
                 	}
 				} else if "flex" == message.Text {
                 	// {
@@ -361,7 +360,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
                 		replyToken,
                 		linebot.NewFlexMessage("Flex message alt text", contents),
                 	).Do(); err != nil {
-                		return err
+						log.Print(err)
                 	}
 				} else if "flex carousel" == message.Text {
                 	// {
@@ -430,7 +429,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
                 		replyToken,
                 		linebot.NewFlexMessage("Flex message alt text", contents),
                 	).Do(); err != nil {
-                		return err
+						log.Print(err)
                 	}
 				} else if "flex json" == message.Text {
                 	jsonString := `{
@@ -587,14 +586,42 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
                     }`
         	       	contents, err := linebot.UnmarshalFlexMessageJSON([]byte(jsonString))
         	       	if err != nil {
-        	       		return err
+						log.Print(err)
         	       	}
         	       	if _, err := app.bot.ReplyMessage(
         	       		replyToken,
         	       		linebot.NewFlexMessage("Flex message alt text", contents),
         	       	).Do(); err != nil {
-        	       		return err
+						log.Print(err)
         	       	}
+				} else if "m6" == message.Text {
+					imageURL = "https://lh3.googleusercontent.com/-HH0XJGbc8rg/XvGESH1WZ5I/AAAAAAAAFro/hQKPpJ5OVM80ZsBNIR7Ou7aoPh4Rz6DAACK8BGAsYHg/s512/2020-06-22.jpg"
+					LineTemplate_test := linebot.NewCarouselTemplate(
+					     linebot.NewCarouselColumn(
+						imageURL, "💠ϻఠ_ఠsɛɳ💠вσт💠", "ℓ๐νә",
+						linebot.NewURITemplateAction("Google Map","https://goo.gl/maps/h6s5ccdXrL52"),
+						linebot.NewURITemplateAction("add me","line://ti/p/~M_BW"),
+						linebot.NewURITemplateAction("click","https://lh3.googleusercontent.com/-pOOr24kfmm0/XzzpnO3Br8I/AAAAAAAAIVQ/NOaSZuWwV0QhaBW9h7wWsiCukigu8XOkACK8BGAsYHg/s512/2020-08-19.gif"),
+					),
+					// LineTemplate_other_example,
+					// LineTemplate_other,
+					linebot.NewCarouselColumn(
+						imageURL, "ϻఠ_ఠsɛɳ", "вσт",
+						linebot.NewMessageTemplateAction("ϻఠ_ఠsɛɳ", "вσт"),
+						linebot.NewMessageTemplateAction("『ᖼOᗱᗴℕ』", "ℓ๐νә"),
+						linebot.NewMessageTemplateAction("ϻఠ_ఠsɛɳ", "вσт"),
+					),
+					LineTemplate_CarouselColumn_feedback,
+					)
+					no_temp_msg := "ℓ๐νә"
+					obj_message := linebot.NewTemplateMessage(no_temp_msg, LineTemplate_test)
+
+					obj_message_map := linebot.NewLocationMessage("ℓ๐νә", "ℓ๐νә", 25.007408,121.537688) //台北市信義區富陽街46號
+					if _, err = bot.ReplyMessage(event.ReplyToken, obj_message, obj_message_map).Do(); err != nil {
+						log.Print(1876)
+						log.Print(err)
+					}
+					return
 				} else if "imagemap1" == message.Text {
         	       	if _, err := app.bot.ReplyMessage(
         	       		replyToken,
@@ -608,7 +635,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
         	       			linebot.NewMessageImagemapAction("URANAI!", "URANAI!", linebot.ImagemapArea{X: 520, Y: 520, Width: 520, Height: 520}),
 					),
 					).Do(); err != nil {
-					return err
+						log.Print(err)
 					}
 				} else if "imagemap video" == message.Text {
 					if _, err := app.bot.ReplyMessage(
@@ -628,7 +655,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
         	       			ExternalLink:       &linebot.ImagemapVideoExternalLink{LinkURI: "https://line.me", Label: "LINE"},
 					}),
 					).Do(); err != nil {
-					return err
+						log.Print(err)
 					}
 				} else if "quick" == message.Text {
 					if _, err := app.bot.ReplyMessage(
@@ -637,17 +664,17 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
         	       		        	WithQuickReplies(linebot.NewQuickReplyItems(
         	       				linebot.NewQuickReplyButton(
         	       					app.appBaseURL+"/static/quick/sushi.png",
-        	       					linebot.NewMessageAction("Sushi", "Sushi")),
+        	       					linebot.NewMessageTemplateAction("Sushi", "Sushi")),
         	       				linebot.NewQuickReplyButton(
         	       					app.appBaseURL+"/static/quick/tempura.png",
-        	       					linebot.NewMessageAction("Tempura", "Tempura")),
+        	       					linebot.NewMessageTemplateAction("Tempura", "Tempura")),
         	       				linebot.NewQuickReplyButton(
         	       					"",
         	       					linebot.NewLocationAction("Send location")),
         	       			)),
 					).Do(); err != nil {
-					return err
-        	       	}
+						log.Print(err)
+					}
 				} else if "confirm" == message.Text {
 					template := linebot.NewConfirmTemplate(
 						"Do it?",
@@ -661,7 +688,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						log.Print(err)
 					}
 				} else if "carousel" == message.Text {
-					ImageUrl: "https://picsum.photos/200",
+					imageURL := app.appBaseURL + "/static/buttons/1040.jpg"
 					template := linebot.NewCarouselTemplate(
 						linebot.NewCarouselColumn(
 							imageURL, "hoge", "fuga",
