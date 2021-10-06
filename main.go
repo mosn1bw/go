@@ -193,6 +193,55 @@ func Carousel(p PlacesCarousel, maxBubble int) *linebot.FlexMessage {
 	return linebot.NewFlexMessage(altText, carousel)
 }
 
+// FlexContainerType type
+type FlexContainerType string
+
+// IntPtr is a helper function for using *int values
+func IntPtr(v int) *int {
+	return &v
+}
+
+// FlexContainerType constants
+const (
+	FlexContainerTypeBubble   FlexContainerType = "bubble"
+	FlexContainerTypeCarousel FlexContainerType = "carousel"
+)
+
+// BubbleContainer type
+type BubbleContainer struct {
+	Type      FlexContainerType
+	Size      FlexBubbleSizeType
+	Direction FlexBubbleDirectionType
+	Header    *BoxComponent
+	Hero      *ImageComponent
+	Body      *BoxComponent
+	Footer    *BoxComponent
+	Styles    *BubbleStyle
+}
+
+// MarshalJSON method of BubbleContainer
+func (c *BubbleContainer) MarshalJSON() ([]byte, error) {
+	return json.Marshal(&struct {
+		Type      FlexContainerType       `json:"type"`
+		Size      FlexBubbleSizeType      `json:"size,omitempty"`
+		Direction FlexBubbleDirectionType `json:"direction,omitempty"`
+		Header    *BoxComponent           `json:"header,omitempty"`
+		Hero      *ImageComponent         `json:"hero,omitempty"`
+		Body      *BoxComponent           `json:"body,omitempty"`
+		Footer    *BoxComponent           `json:"footer,omitempty"`
+		Styles    *BubbleStyle            `json:"styles,omitempty"`
+	}{
+		Type:      FlexContainerTypeBubble,
+		Size:      c.Size,
+		Direction: c.Direction,
+		Header:    c.Header,
+		Hero:      c.Hero,
+		Body:      c.Body,
+		Footer:    c.Footer,
+		Styles:    c.Styles,
+	})
+}
+
 // CarouselContainer type
 type CarouselContainer struct {
 	Type     FlexContainerType
