@@ -271,6 +271,17 @@ func NewDatetimePickerAction(label, data, mode, initial, max, min string) *Datet
 // FlexContainer implements FlexContainer interface
 func (*BubbleContainer) FlexContainer() {}
 
+// MarshalJSON method of CarouselContainer
+func (c *CarouselContainer) MarshalJSON() ([]byte, error) {
+	return json.Marshal(&struct {
+		Type     FlexContainerType  `json:"type"`
+		Contents []*BubbleContainer `json:"contents"`
+	}{
+		Type:     FlexContainerTypeCarousel,
+		Contents: c.Contents,
+	})
+}
+
 // FlexContainer implements FlexContainer interface
 func (*CarouselContainer) FlexContainer() {}
 
