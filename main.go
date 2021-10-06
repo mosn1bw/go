@@ -207,18 +207,6 @@ const (
 	FlexContainerTypeCarousel FlexContainerType = "carousel"
 )
 
-// BubbleContainer type
-type BubbleContainer struct {
-	Type      FlexContainerType
-	Size      FlexBubbleSizeType
-	Direction FlexBubbleDirectionType
-	Header    *BoxComponent
-	Hero      *ImageComponent
-	Body      *BoxComponent
-	Footer    *BoxComponent
-	Styles    *BubbleStyle
-}
-
 // MarshalJSON method of BubbleContainer
 func (c *BubbleContainer) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&struct {
