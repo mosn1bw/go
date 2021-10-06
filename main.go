@@ -95,6 +95,12 @@ func tellTimeJob(sourceId string) {
 	}
 }
 
+// CarouselContainer type
+type CarouselContainer struct {
+	Type     FlexContainerType
+	Contents []*BubbleContainer
+}
+
 // MarshalJSON method of CarouselContainer
 func (c *CarouselContainer) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&struct {
@@ -104,6 +110,34 @@ func (c *CarouselContainer) MarshalJSON() ([]byte, error) {
 		Type:     FlexContainerTypeCarousel,
 		Contents: c.Contents,
 	})
+}
+
+func (c *rawFlexContainer) UnmarshalJSON(data []byte) error {
+	type alias rawFlexContainer
+	raw := alias{}
+	if err := json.Unmarshal(data, &raw); err != nil {
+		return err
+	}
+	var container FlexContainer
+	switch raw.Type {
+	case FlexContainerTypeBubble:
+		container = &BubbleContainer{}
+	case FlexContainerTypeCarousel:
+		container = &CarouselContainer{}
+	default:
+		return errors.New("invalid container type")
+	}
+	if err := json.Unmarshal(data, container); err != nil {
+		return err
+	}
+	c.Type = raw.Type
+	c.Container = container
+	return nil
+}
+
+type rawFlexComponent struct {
+	Type      FlexComponentType `json:"type"`
+	Component FlexComponent     `json:"-"`
 }
 
 func main() {
@@ -141,6 +175,12 @@ func Carousel(p PlacesCarousel, maxBubble int) *linebot.FlexMessage {
 	carousel := MarshalCarousel(p, maxBubble)
 	altText := p.AltText()
 	return linebot.NewFlexMessage(altText, carousel)
+}
+
+// CarouselContainer type
+type CarouselContainer struct {
+	Type     FlexContainerType
+	Contents []*BubbleContainer
 }
 
 // UnmarshalFlexMessageJSON function
