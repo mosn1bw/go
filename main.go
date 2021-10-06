@@ -243,6 +243,19 @@ func (*BubbleContainer) FlexContainer() {}
 // FlexContainer implements FlexContainer interface
 func (*CarouselContainer) FlexContainer() {}
 
+//Carouselmesage 產生訊息
+func Carouselmesage(roads [5][5]interface{}) (container *linebot.CarouselContainer) {
+	var bubbleConts []*linebot.BubbleContainer
+
+	for i,info := range roads {
+		bubbleConts = append(bubbleConts, bubbleContainer(info[0].(string), info[1].(float64), info[2].(float64), info[3].(int), info[4].(string),i+1))
+	}
+	container = &linebot.CarouselContainer{
+		Type:     linebot.FlexContainerTypeCarousel,
+		Contents: bubbleConts,
+	}
+	return
+}
 // NewKitchenSink function
 func NewKitchenSink(channelSecret, channelToken, appBaseURL string) (*KitchenSink, error) {
 	apiEndpointBase := os.Getenv("ENDPOINT_BASE")
