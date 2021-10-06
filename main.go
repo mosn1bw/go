@@ -95,12 +95,6 @@ func tellTimeJob(sourceId string) {
 	}
 }
 
-// CarouselContainer type
-type CarouselContainer struct {
-	Type     FlexContainerType
-	Contents []*BubbleContainer
-}
-
 // MarshalJSON method of CarouselContainer
 func (c *CarouselContainer) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&struct {
@@ -147,12 +141,6 @@ func Carousel(p PlacesCarousel, maxBubble int) *linebot.FlexMessage {
 	carousel := MarshalCarousel(p, maxBubble)
 	altText := p.AltText()
 	return linebot.NewFlexMessage(altText, carousel)
-}
-
-// CarouselContainer type
-type CarouselContainer struct {
-	Type     FlexContainerType
-	Contents []*BubbleContainer
 }
 
 // UnmarshalFlexMessageJSON function
