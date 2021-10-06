@@ -95,19 +95,22 @@ func tellTimeJob(sourceId string) {
 	}
 }
 
-// FlexContainerType type
-type FlexContainerType string
-
-// IntPtr is a helper function for using *int values
-func IntPtr(v int) *int {
-	return &v
+// CarouselContainer type
+type CarouselContainer struct {
+	Type     FlexContainerType
+	Contents []*BubbleContainer
 }
 
-// FlexContainerType constants
-const (
-	FlexContainerTypeBubble   FlexContainerType = "bubble"
-	FlexContainerTypeCarousel FlexContainerType = "carousel"
-)
+// MarshalJSON method of CarouselContainer
+func (c *CarouselContainer) MarshalJSON() ([]byte, error) {
+	return json.Marshal(&struct {
+		Type     FlexContainerType  `json:"type"`
+		Contents []*BubbleContainer `json:"contents"`
+	}{
+		Type:     FlexContainerTypeCarousel,
+		Contents: c.Contents,
+	})
+}
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
@@ -189,6 +192,111 @@ func (*BubbleContainer) FlexContainer() {}
 
 // FlexContainer implements FlexContainer interface
 func (*CarouselContainer) FlexContainer() {}
+
+// NewKitchenSink function
+func NewKitchenSink(channelSecret, channelToken, appBaseURL string) (*KitchenSink, error) {
+	apiEndpointBase := os.Getenv("ENDPOINT_BASE")
+	if apiEndpointBase == "" {
+		apiEndpointBase = linebot.APIEndpointBase
+	}
+	bot, err := linebot.New(
+		channelSecret,
+		channelToken,
+		linebot.WithEndpointBase(apiEndpointBase), // Usually you omit this.
+	)
+	if err != nil {
+		return nil, err
+	}
+	downloadDir := filepath.Join(filepath.Dir(os.Args[0]), "line-bot")
+	_, err = os.Stat(downloadDir)
+	if err != nil {
+		if err := os.Mkdir(downloadDir, 0777); err != nil {
+			return nil, err
+		}
+	}
+	return &KitchenSink{
+		bot:         bot,
+		appBaseURL:  appBaseURL,
+		downloadDir: downloadDir,
+	}, nil
+}
+
+// Callback function for http server
+func (app *KitchenSink) Callback(w http.ResponseWriter, r *http.Request) {
+	events, err := app.bot.ParseRequest(r)
+	if err != nil {
+		if err == linebot.ErrInvalidSignature {
+			w.WriteHeader(400)
+		} else {
+			w.WriteHeader(500)
+		}
+		return
+	}
+	for _, event := range events {
+		log.Printf("Got event %v", event)
+		switch event.Type {
+		case linebot.EventTypeMessage:
+			switch message := event.Message.(type) {
+			case *linebot.TextMessage:
+				if err := app.handleText(message, event.ReplyToken, event.Source); err != nil {
+					log.Print(err)
+				}
+			case *linebot.ImageMessage:
+				if err := app.handleImage(message, event.ReplyToken); err != nil {
+					log.Print(err)
+				}
+			case *linebot.VideoMessage:
+				if err := app.handleVideo(message, event.ReplyToken); err != nil {
+					log.Print(err)
+				}
+			case *linebot.AudioMessage:
+				if err := app.handleAudio(message, event.ReplyToken); err != nil {
+					log.Print(err)
+				}
+			case *linebot.FileMessage:
+				if err := app.handleFile(message, event.ReplyToken); err != nil {
+					log.Print(err)
+				}
+			case *linebot.LocationMessage:
+				if err := app.handleLocation(message, event.ReplyToken); err != nil {
+					log.Print(err)
+				}
+			case *linebot.StickerMessage:
+				if err := app.handleSticker(message, event.ReplyToken); err != nil {
+					log.Print(err)
+				}
+			default:
+				log.Printf("Unknown message: %v", message)
+			}
+		case linebot.EventTypeFollow:
+			if err := app.replyText(event.ReplyToken, "Got followed event"); err != nil {
+				log.Print(err)
+			}
+		case linebot.EventTypeUnfollow:
+			log.Printf("Unfollowed this bot: %v", event)
+		case linebot.EventTypeJoin:
+			if err := app.replyText(event.ReplyToken, "Joined "+string(event.Source.Type)); err != nil {
+				log.Print(err)
+			}
+		case linebot.EventTypeLeave:
+			log.Printf("Left: %v", event)
+		case linebot.EventTypePostback:
+			data := event.Postback.Data
+			if data == "DATE" || data == "TIME" || data == "DATETIME" {
+				data += fmt.Sprintf("(%v)", *event.Postback.Params)
+			}
+			if err := app.replyText(event.ReplyToken, "Got postback: "+data); err != nil {
+				log.Print(err)
+			}
+		case linebot.EventTypeBeacon:
+			if err := app.replyText(event.ReplyToken, "Got beacon: "+event.Beacon.Hwid); err != nil {
+				log.Print(err)
+			}
+		default:
+			log.Printf("Unknown event: %v", event)
+		}
+	}
+}
 
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	events, err := bot.ParseRequest(r)
