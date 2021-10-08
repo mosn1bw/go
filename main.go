@@ -95,6 +95,18 @@ func tellTimeJob(sourceId string) {
 	}
 }
 
+// BubbleContainer type
+type BubbleContainer struct {
+	Type      FlexContainerType
+	Size      FlexBubbleSizeType
+	Direction FlexBubbleDirectionType
+	Header    *BoxComponent
+	Hero      *ImageComponent
+	Body      *BoxComponent
+	Footer    *BoxComponent
+	Styles    *BubbleStyle
+}
+
 // MarshalJSON method of CarouselContainer
 func (c *CarouselContainer) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&struct {
