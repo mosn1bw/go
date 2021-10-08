@@ -230,12 +230,6 @@ func (c *BubbleContainer) MarshalJSON() ([]byte, error) {
 	})
 }
 
-// CarouselContainer type
-type CarouselContainer struct {
-	Type     FlexContainerType
-	Contents []*BubbleContainer
-}
-
 // UnmarshalFlexMessageJSON function
 func UnmarshalFlexMessageJSON(data []byte) (FlexContainer, error) {
 	raw := rawFlexContainer{}
