@@ -105,57 +105,6 @@ func (c *CarouselContainer) MarshalJSON() ([]byte, error) {
 		Contents: c.Contents,
 	})
 }
-
-func (c *rawFlexContainer) UnmarshalJSON(data []byte) error {
-	type alias rawFlexContainer
-	raw := alias{}
-	if err := json.Unmarshal(data, &raw); err != nil {
-		return err
-	}
-	var container FlexContainer
-	switch raw.Type {
-	case FlexContainerTypeBubble:
-		container = &BubbleContainer{}
-	case FlexContainerTypeCarousel:
-		container = &CarouselContainer{}
-	default:
-		return errors.New("invalid container type")
-	}
-	if err := json.Unmarshal(data, container); err != nil {
-		return err
-	}
-	c.Type = raw.Type
-	c.Container = container
-	return nil
-}
-
-type rawFlexComponent struct {
-	Type      FlexComponentType `json:"type"`
-	Component FlexComponent     `json:"-"`
-}
-
-// レストラン情報をCarouselContainerポインター型で返す
-func FlexRestaurants(g *gurunavi.GurunaviResponseBody) *linebot.CarouselContainer{
-	var bcs []*linebot.BubbleContainer
-
-	// 個々のレストラン情報をBubbleContainerにセットしてスライス格納
-	for _, r := range g.Rest{
-		b := linebot.BubbleContainer{
-			Type: linebot.FlexContainerTypeBubble,
-			Hero: setHero(r),
-			Body: setBody(r),
-			Footer: setFooter(r),
-		}
-		bcs = append(bcs, &b)
-	}
-
-	// BubbleContainerスライスをCarouselContainerに格納して返却
-	return &linebot.CarouselContainer{
-		Type:     linebot.FlexContainerTypeCarousel,
-		Contents: bcs,
-	}
-}
-
 func main() {
 	rand.Seed(time.Now().UnixNano())
 	/*
