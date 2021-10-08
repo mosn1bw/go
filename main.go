@@ -243,12 +243,6 @@ func (c *BubbleContainer) MarshalJSON() ([]byte, error) {
 	})
 }
 
-// CarouselContainer type
-type CarouselContainer struct {
-	Type     FlexContainerType
-	Contents []*
-}
-
 // UnmarshalFlexMessageJSON function
 func UnmarshalFlexMessageJSON(data []byte) (FlexContainer, error) {
 	raw := rawFlexContainer{}
@@ -267,6 +261,12 @@ func (c *CarouselContainer) MarshalJSON() ([]byte, error) {
 		Type:     FlexContainerTypeCarousel,
 		Contents: c.Contents,
 	})
+}
+
+// CarouselContainer type
+type CarouselContainer struct {
+	Type     FlexContainerType
+	Contents []*
 }
 
 // NewDatetimePickerAction function
