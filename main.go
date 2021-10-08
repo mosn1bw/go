@@ -433,34 +433,6 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
         	       	).Do(); err != nil {
 						log.Print(err)
         	       	}
-				} else if "m6" == message.Text {
-					imageURL = "https://lh3.googleusercontent.com/-HH0XJGbc8rg/XvGESH1WZ5I/AAAAAAAAFro/hQKPpJ5OVM80ZsBNIR7Ou7aoPh4Rz6DAACK8BGAsYHg/s512/2020-06-22.jpg"
-					LineTemplate_test := linebot.NewCarouselTemplate(
-					     linebot.NewCarouselColumn(
-						imageURL, "💠ϻఠ_ఠsɛɳ💠вσт💠", "ℓ๐νә",
-						linebot.NewURITemplateAction("Google Map","https://goo.gl/maps/h6s5ccdXrL52"),
-						linebot.NewURITemplateAction("add me","line://ti/p/~M_BW"),
-						linebot.NewURITemplateAction("click","https://lh3.googleusercontent.com/-pOOr24kfmm0/XzzpnO3Br8I/AAAAAAAAIVQ/NOaSZuWwV0QhaBW9h7wWsiCukigu8XOkACK8BGAsYHg/s512/2020-08-19.gif"),
-					),
-					// LineTemplate_other_example,
-					// LineTemplate_other,
-					linebot.NewCarouselColumn(
-						imageURL, "ϻఠ_ఠsɛɳ", "вσт",
-						linebot.NewMessageTemplateAction("ϻఠ_ఠsɛɳ", "вσт"),
-						linebot.NewMessageTemplateAction("『ᖼOᗱᗴℕ』", "ℓ๐νә"),
-						linebot.NewMessageTemplateAction("ϻఠ_ఠsɛɳ", "вσт"),
-					),
-					//LineTemplate_CarouselColumn_feedback,
-					)
-					no_temp_msg := "ℓ๐νә"
-					obj_message := linebot.NewTemplateMessage(no_temp_msg, LineTemplate_test)
-
-					obj_message_map := linebot.NewLocationMessage("ℓ๐νә", "ℓ๐νә", 25.007408,121.537688) //台北市信義區富陽街46號
-					if _, err = bot.ReplyMessage(event.ReplyToken, obj_message, obj_message_map).Do(); err != nil {
-						log.Print(1876)
-						log.Print(err)
-					}
-					return
 				} else if "imagemap" == message.Text {
 					if _, err := bot.ReplyMessage(
 						replyToken,
