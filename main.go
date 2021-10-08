@@ -121,13 +121,6 @@ func main() {
 
 }
 
-// Carousel message
-func Carousel(p PlacesCarousel, maxBubble int) *linebot.FlexMessage {
-	carousel := MarshalCarousel(p, maxBubble)
-	altText := p.AltText()
-	return linebot.NewFlexMessage(altText, carousel)
-}
-
 // UnmarshalFlexMessageJSON function
 func UnmarshalFlexMessageJSON(data []byte) (FlexContainer, error) {
 	raw := rawFlexContainer{}
@@ -135,12 +128,6 @@ func UnmarshalFlexMessageJSON(data []byte) (FlexContainer, error) {
 		return nil, err
 	}
 	return raw.Container, nil
-}
-
-// ImageCarouselColumn type
-type ImageCarouselColumn struct {
-	ImageURL string         `json:"imageURL"`
-	Action   TemplateAction `json:"action"`
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
