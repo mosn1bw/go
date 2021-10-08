@@ -264,10 +264,8 @@ func (c *CarouselContainer) MarshalJSON() ([]byte, error) {
 }
 
 // CarouselContainer type
-type CarouselContainer struct {
-	Type     FlexContainerType
-	Contents []*
-}
+type FlexContainerType = string // alias type
+
 
 // NewDatetimePickerAction function
 func NewDatetimePickerAction(label, data, mode, initial, max, min string) *DatetimePickerAction {
