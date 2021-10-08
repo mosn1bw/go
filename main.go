@@ -86,12 +86,29 @@ func tellTime(replyToken string, doTell bool){
 	}
 }
 
+// UnmarshalFlexMessageJSON function
+func UnmarshalFlexMessageJSON(data []byte) (FlexContainer, error) {
+	raw := rawFlexContainer{}
+	if err := json.Unmarshal(data, &raw); err != nil {
+		return nil, err
+	}
+	return raw.Container, nil
+}
+
 func tellTimeJob(sourceId string) {
 	for {
 		time.Sleep(time.Duration(tellTimeInterval) * time.Minute)
 		now := time.Now().In(loc)
 		log.Println("time to tell time to : " + sourceId + ", " + now.Format(timeFormat))
 		tellTime(sourceId, false)
+	}
+}
+
+// NewFlexMessage function
+func NewFlexMessage(altText string, contents FlexContainer) *FlexMessage {
+	return &FlexMessage{
+		AltText:  altText,
+		Contents: contents,
 	}
 }
 
@@ -119,15 +136,6 @@ func main() {
 	addr := fmt.Sprintf(":%s", port)
 	http.ListenAndServe(addr, nil)
 
-}
-
-// UnmarshalFlexMessageJSON function
-func UnmarshalFlexMessageJSON(data []byte) (FlexContainer, error) {
-	raw := rawFlexContainer{}
-	if err := json.Unmarshal(data, &raw); err != nil {
-		return nil, err
-	}
-	return raw.Container, nil
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
