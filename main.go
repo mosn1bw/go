@@ -121,6 +121,28 @@ func main() {
 
 }
 
+// Carousel message
+func Carousel(p PlacesCarousel, maxBubble int) *linebot.FlexMessage {
+	carousel := MarshalCarousel(p, maxBubble)
+	altText := p.AltText()
+	return linebot.NewFlexMessage(altText, carousel)
+}
+
+// UnmarshalFlexMessageJSON function
+func UnmarshalFlexMessageJSON(data []byte) (FlexContainer, error) {
+	raw := rawFlexContainer{}
+	if err := json.Unmarshal(data, &raw); err != nil {
+		return nil, err
+	}
+	return raw.Container, nil
+}
+
+// ImageCarouselColumn type
+type ImageCarouselColumn struct {
+	ImageURL string         `json:"imageURL"`
+	Action   TemplateAction `json:"action"`
+}
+
 func handler(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
 }
@@ -441,7 +463,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						linebot.NewMessageTemplateAction("『ᖼOᗱᗴℕ』", "ℓ๐νә"),
 						linebot.NewMessageTemplateAction("ϻఠ_ఠsɛɳ", "вσт"),
 					),
-					LineTemplate_CarouselColumn_feedback,
+					//LineTemplate_CarouselColumn_feedback,
 					)
 					no_temp_msg := "ℓ๐νә"
 					obj_message := linebot.NewTemplateMessage(no_temp_msg, LineTemplate_test)
@@ -519,3 +541,4 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	
 }
+
