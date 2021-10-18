@@ -22,8 +22,6 @@ import (
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
-var bot *linebot.Client
-
 //var echoMap = make(map[string]bool)
 
 var loc, _ = time.LoadLocation("Asia/Tehran")
@@ -79,12 +77,6 @@ func main() {
 	addr := fmt.Sprintf(":%s", port)
 	http.ListenAndServe(addr, nil)
 
-}
-
-// ImageCarouselColumn type
-type ImageCarouselColumn struct {
-	ImageURL string         `json:"imageURL"`
-	Action   TemplateAction `json:"action"`
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
