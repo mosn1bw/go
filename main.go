@@ -5,8 +5,7 @@ import (
 	"strconv"
 	"strings"
 	
-	"CQApp/src/dbTransition"
-	"github.com/catsworld/qq-bot-api"
+	"github.com/line/line-bot-sdk-go/linebot"
 )
 
 var aliasBot *qqbotapi.BotAPI
