@@ -22,12 +22,6 @@ import (
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
-//var echoMap = make(map[string]bool)
-
-var loc, _ = time.LoadLocation("Asia/Tehran")
-var bot *linebot.Client
-
-
 func tellTime(replyToken string, doTell bool){
 	var silent = false
 	now := time.Now().In(loc)
@@ -43,31 +37,6 @@ func tellTime(replyToken string, doTell bool){
 		log.Println("tell time misfired")
 	}
 }
-
-func tellTimeJob(sourceId string) {
-	for {
-		time.Sleep(time.Duration(tellTimeInterval) * time.Minute)
-		now := time.Now().In(loc)
-		log.Println("time to tell time to : " + sourceId + ", " + now.Format(timeFormat))
-		tellTime(sourceId, false)
-	}
-}
-
-func main() {
-	rand.Seed(time.Now().UnixNano())
-	/*
-	go func() {
-		tellTimeJob(user_zchien);
-	}()
-	go func() {
-		for {
-			now := time.Now().In(loc)
-			log.Println("keep alive at : " + now.Format(timeFormat))
-			//http.Get("https://line-talking-bot-go.herokuapp.com")
-			time.Sleep(time.Duration(rand.Int31n(29)) * time.Minute)
-		}
-	}()
-	*/
 
 	var err error
 	bot, err = linebot.New(os.Getenv("ChannelSecret"), os.Getenv("ChannelAccessToken"))
