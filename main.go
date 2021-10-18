@@ -1,41 +1,28 @@
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
-// Constants
-var timeFormat = "01/02 PM03:04:05"
-var user_zchien = "U696bcb700dfc9254b27605374b86968b"
-var user_yaoming = "U3aaab6c6248bb38f194134948c60f757"
-var user_jackal = "U3effab06ddf5bcf0b46c1c60bcd39ef5"
-var user_shane = "U2ade7ac4456cb3ca99ffdf9d7257329a"
+package main
 
-// Global Settings
-var channelSecret = os.Getenv("CHANNEL_SECRET")
-var channelToken = os.Getenv("CHANNEL_TOKEN")
-//var baseURL = os.Getenv("APP_BASE_URL")
-var baseURL = "https://line-talking-bot-go.herokuapp.com"
-var endpointBase = os.Getenv("ENDPOINT_BASE")
-var tellTimeInterval int = 15
-var answers_TextMessage = []string{
-		"",
-	}
-var answers_ImageMessage = []string{
-		"",
-	}
-var answers_StickerMessage = []string{
-		"",
-	}
-var answers_VideoMessage = []string{
-		"",
-	}
-var answers_AudioMessage = []string{
-		"",
-	}
-var answers_LocationMessage = []string{
-		"",
-	}
-var answers_ReplyCurseMessage = []string{
-		"",
-	}
+import (
+	"fmt"
+	"log"
+	"net/http"
+	"os"
+	"strings"
 
-var silentMap = make(map[string]bool) // [UserID/GroupID/RoomID]:bool
+	"github.com/line/line-bot-sdk-go/v7/linebot"
+)
+
+var bot *linebot.Client
 
 //var echoMap = make(map[string]bool)
 
