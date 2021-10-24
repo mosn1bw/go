@@ -14,16 +14,49 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
+//var baseURL = os.Getenv("APP_BASE_URL")
+var baseURL = "https://line-talking-bot-go.herokuapp.com"
+var endpointBase = os.Getenv("ENDPOINT_BASE")
+var tellTimeInterval int = 15
+var answers_TextMessage = []string{
+	}
+var silentMap = make(map[string]bool) // [UserID/GroupID/RoomID]:bool
+
+//var echoMap = make(map[string]bool)
+
+var loc, _ = time.LoadLocation("Asia/Tehran")
+
 var bot *linebot.Client
 
+var answers_ReplyCurseMessage = []string{
+		"",
+	}
+
 func main() {
+	rand.Seed(time.Now().UnixNano())
+	/*
+	go func() {
+		tellTimeJob(user_mosen);
+	}()
+	go func() {
+		for {
+			now := time.Now().In(loc)
+			log.Println("keep alive at : " + now.Format(timeFormat))
+			//http.Get("https://line-talking-bot-go.herokuapp.com")
+			time.Sleep(time.Duration(rand.Int31n(29)) * time.Minute)
+		}
+	}()
+	*/
+
 	var err error
 	bot, err = linebot.New(os.Getenv("ChannelSecret"), os.Getenv("ChannelAccessToken"))
 	log.Println("Bot:", bot, " err:", err)
@@ -31,6 +64,7 @@ func main() {
 	port := os.Getenv("PORT")
 	addr := fmt.Sprintf(":%s", port)
 	http.ListenAndServe(addr, nil)
+
 }
 
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
